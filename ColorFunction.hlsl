@@ -43,4 +43,32 @@ float4 isColorOutOfRange(float4 checkColor, float4 errorOverColor = float4(1.0, 
     return checkColor;
 }
 
+half luminance(half3 col)
+{
+    return dot(col, half3(0.22, 0.707, 0.071));
+}
+
+half3 applyHue(half3 color, half hue)
+{
+    float angle = radians(hue);
+    float3 k = float3(0.57735, 0.57735, 0.57735);
+    float cosAngle = cos(angle);
+    return color * cosAngle + cross(k, color) * sin(angle) + k * dot(k, color) * (1 - cosAngle);
+}
+
+half3 applyHSVC(half3 color, half4 hsvc)
+{
+    float hue = 360.0 * hsvc.x;
+    float saturation = hsvc.y * 2.0;
+    float brightness = hsvc.z * 2.0 - 1.0;
+    float contrast = hsvc.w * 2.0;
+
+    half3 outputColor = color;
+    outputColor = applyHue(outputColor, hue);
+    outputColor = (outputColor - 0.5) * contrast + 0.5 + brightness;
+    outputColor = lerp(luminance(outputColor), outputColor.rgb, saturation);
+    
+    return outputColor;
+}
+
 #endif
