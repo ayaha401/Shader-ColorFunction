@@ -43,11 +43,13 @@ float4 isColorOutOfRange(float4 checkColor, float4 errorOverColor = float4(1.0, 
     return checkColor;
 }
 
+// 人間の視覚に基づいた輝度を計算する
 half luminance(half3 col)
 {
     return dot(col, half3(0.22, 0.707, 0.071));
 }
 
+// Hueを変える
 half3 applyHue(half3 color, half hue)
 {
     float angle = radians(hue);
@@ -56,6 +58,8 @@ half3 applyHue(half3 color, half hue)
     return color * cosAngle + cross(k, color) * sin(angle) + k * dot(k, color) * (1 - cosAngle);
 }
 
+// HSVとコントラストを変える
+// Hは0がデフォルト、それ以外は0.5がデフォルト
 half3 applyHSVC(half3 color, half4 hsvc)
 {
     float hue = 360.0 * hsvc.x;
