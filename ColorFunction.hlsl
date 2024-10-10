@@ -44,12 +44,14 @@ float4 isColorOutOfRange(float4 checkColor, float4 errorOverColor = float4(1.0, 
 }
 
 // 人間の視覚に基づいた輝度を計算する
+// https://www.clonefactor.com/wordpress/program/unity3d/1513/
 half luminance(half3 col)
 {
     return dot(col, half3(0.22, 0.707, 0.071));
 }
 
 // Hueを変える
+// https://www.clonefactor.com/wordpress/program/unity3d/1513/
 half3 applyHue(half3 color, half hue)
 {
     float angle = radians(hue);
@@ -60,6 +62,7 @@ half3 applyHue(half3 color, half hue)
 
 // HSVとコントラストを変える
 // Hは0がデフォルト、それ以外は0.5がデフォルト
+// https://www.clonefactor.com/wordpress/program/unity3d/1513/
 half3 applyHSVC(half3 color, half4 hsvc)
 {
     float hue = 360.0 * hsvc.x;
