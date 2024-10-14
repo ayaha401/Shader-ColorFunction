@@ -78,4 +78,18 @@ half3 applyHSVC(half3 color, half4 hsvc)
     return outputColor;
 }
 
+// 色をlerpで反転させるときに.5で全部灰色にならないようにする方法
+// color : 色
+// x : 0~1
+// mode : 0 か 1 ソラリゼーションさせる方法が変わる
+// https://suricrasia.online/blog/interpolatable-colour-inversion/
+half3 solarInvert(half3 color, float x, half mode)
+{
+	float st = 1.0 - step(0.5, x);
+	float isAType = step(0.5, mode);  // modeが1以上でA_TYPEになる
+	half3 processedColor = lerp(color, 1.0 - color, isAType); // A_TYPEの時は反転
+	half3 resultColor = abs((processedColor - st) * (2.0 * x + 4.0 * st - 3.0) + 1.0);
+	return lerp(resultColor, 1.0 - resultColor, isAType); // A_TYPEモードなら結果色も反転させる
+}
+
 #endif
