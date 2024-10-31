@@ -2,24 +2,29 @@
 #define COLOR_FUNCTION
 
 // モノクロ変換
+// rgbCol : RGBの色
 float convertMonochrome(float3 rgbCol)
 {
     return dot(rgbCol, float3(.299, .587, .114));
 }
 
 // RGBカラーからHSV色空間のV（明度）を計算
+// rgbCol : RGBの色
 float getValueColor(float3 rgbCol)
 {
     return max(max(rgbCol.r, rgbCol.g), rgbCol.b);
 }
 
 // V(明度)でRGBを調整する
+// rgbCol : RGBの色
+// v : 明度
 float3 adjustRGBWithV(float3 rgb, float v)
 {
     return rgb * v;
 }
 
 // HSVからRGBに変換する
+// c : hsv
 float3 hsv2rgb(float3 c)
 {
     float3 rgb = clamp(abs(fmod(c.x * 6.0 + float3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
@@ -28,6 +33,9 @@ float3 hsv2rgb(float3 c)
 }
 
 // checkColorの要素のうち、1つでも1.0を超えるか、0以下ならエラーの色を出す
+// checkColor : 確認したい色
+// errorOverColor : 1.0を超えたときにエラーとして出す色
+// errorMinusColor : 0.0を下回った時にエラーとして出す色
 float4 isColorOutOfRange(float4 checkColor, float4 errorOverColor = float4(1.0, 0.0, 1.0, 1.0), float4 errorMinusColor = float4(1.0, 0.0, 1.0, 1.0))
 {
     if (max(max(max(checkColor.r, checkColor.g), checkColor.b), checkColor.a) > 1.0)
@@ -45,6 +53,7 @@ float4 isColorOutOfRange(float4 checkColor, float4 errorOverColor = float4(1.0, 
 
 // 人間の視覚に基づいた輝度を計算する
 // https://www.clonefactor.com/wordpress/program/unity3d/1513/
+// col : RGBの色
 half luminance(half3 col)
 {
     return dot(col, half3(0.22, 0.707, 0.071));
@@ -52,6 +61,8 @@ half luminance(half3 col)
 
 // Hueを変える
 // https://www.clonefactor.com/wordpress/program/unity3d/1513/
+// color : RGBの色
+// hue : 色相
 half3 applyHue(half3 color, half hue)
 {
     float angle = radians(hue);
@@ -63,6 +74,8 @@ half3 applyHue(half3 color, half hue)
 // HSVとコントラストを変える
 // Hは0がデフォルト、それ以外は0.5がデフォルト
 // https://www.clonefactor.com/wordpress/program/unity3d/1513/
+// color : RGBの色
+// hsvc : hue, saturation, value, contrast
 half3 applyHSVC(half3 color, half4 hsvc)
 {
     float hue = 360.0 * hsvc.x;
