@@ -78,10 +78,10 @@ half3 applyHue(half3 color, half hue)
 // hsvc : hue, saturation, value, contrast
 half3 applyHSVC(half3 color, half4 hsvc)
 {
-    hald hue = 360.0 * hsvc.x;
-    hald saturation = hsvc.y * 2.0;
-    hald brightness = hsvc.z * 2.0 - 1.0;
-    hald contrast = hsvc.w * 2.0;
+    half hue = 360.0 * hsvc.x;
+    half saturation = hsvc.y * 2.0;
+    half brightness = hsvc.z * 2.0 - 1.0;
+    half contrast = hsvc.w * 2.0;
 
     half3 outputColor = color;
     outputColor = applyHue(outputColor, hue);
