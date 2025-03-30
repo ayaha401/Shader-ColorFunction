@@ -105,4 +105,21 @@ half3 solarInvert(half3 color, float x, half mode)
 	return lerp(resultColor, 1.0 - resultColor, isAType); // A_TYPEモードなら結果色も反転させる
 }
 
+// 色をスクリーン合成する
+half3 colorScreenBlend(half3 color0, half3 color1)
+{
+    half3 blended = 1.0 - (1.0 - color0.rgb) * (1.0 - color1.rgb);
+    return blended;
+}
+
+// 色をオーバーレイ合成する
+half3 colorOverlayBlend(half3 color0, half3 color1)
+{
+    half3 blended = half3(0.0, 0.0, 0.0);
+    blended.r = (color0.r < 0.5) ? (2.0 * color0.r * color1.r) : (1.0 - 2.0 * (1.0 - color0.r) * (1.0 - color1.r));
+    blended.g = (color0.g < 0.5) ? (2.0 * color0.g * color1.g) : (1.0 - 2.0 * (1.0 - color0.g) * (1.0 - color1.g));
+    blended.b = (color0.b < 0.5) ? (2.0 * color0.b * color1.b) : (1.0 - 2.0 * (1.0 - color0.b) * (1.0 - color1.b));
+    return blended;
+}
+
 #endif
