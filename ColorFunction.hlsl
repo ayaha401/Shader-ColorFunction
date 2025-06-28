@@ -122,4 +122,14 @@ half3 colorOverlayBlend(half3 color0, half3 color1)
     return blended;
 }
 
+// カラーパレットを作成する
+// t:uv.xなど
+// tが0～1の間にCosはdだけX方向にずれてc回振動する。bは振幅。
+// tが0～1の間で色が繰り返されるようにするためにはcを整数値にしないと振動がズレて繰り返しできなくなる
+float3 colorPalette(float t, float3 a, float3 b, float3 c, float3 d )
+{
+    // 6.28318 == 2PI
+    return a + b * cos(6.28318 * ( c * t + d));
+}
+
 #endif
